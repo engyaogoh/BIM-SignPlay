@@ -6,26 +6,49 @@
 <title>BIM SignPlay — Bahasa Isyarat Malaysia</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-  body { font-family:'Segoe UI',system-ui,-apple-system,sans-serif; background:linear-gradient(160deg,#fef9e7 0%,#fdf6d8 50%,#f7f3e3 100%); min-height:100vh; color:#3a3a2c; }
-  .screen { display:none; min-height:100vh; flex-direction:column; align-items:center; padding:16px; max-width:560px; margin:0 auto; }
+  body { font-family:'Segoe UI',system-ui,-apple-system,sans-serif; color:#3a3a2c; min-height:100vh;
+         background:#fdf6d8 url('art/bg.webp') center/cover fixed no-repeat; }
+  .screen { display:none; min-height:100vh; flex-direction:column; align-items:center; padding:16px; max-width:600px; margin:0 auto; }
   .screen.active { display:flex; }
   h1 { font-size:26px; color:#2c3e6b; text-align:center; margin:18px 0 4px; }
-  .sub { color:#8a8570; font-size:14px; margin-bottom:18px; text-align:center; }
-  .btn { display:block; width:100%; max-width:420px; background:#fff; border:2px solid #f0df8a; border-radius:18px; padding:16px 18px; margin:7px 0; font-size:17px; font-weight:600; color:#3a3a2c; cursor:pointer; text-align:left; box-shadow:0 3px 10px rgba(180,160,60,.12); transition:transform .1s; }
+  .sub { color:#7a7460; font-size:14px; margin-bottom:18px; text-align:center; }
+  .btn { display:block; width:100%; max-width:440px; background:rgba(255,255,255,.92); border:2px solid #f0df8a; border-radius:18px; padding:16px 18px; margin:7px 0; font-size:17px; font-weight:600; color:#3a3a2c; cursor:pointer; text-align:left; box-shadow:0 3px 10px rgba(180,160,60,.12); transition:transform .1s; }
   .btn:active { transform:scale(.97); }
   .btn .em { font-size:22px; margin-right:10px; }
   .btn .desc { display:block; font-size:13px; font-weight:400; color:#8a8570; margin-top:3px; }
   .btn.primary { background:#2c3e6b; color:#fff; border-color:#2c3e6b; }
   .btn.primary .desc { color:#c5cbe3; }
-  .topbar { width:100%; max-width:420px; display:flex; align-items:center; justify-content:space-between; margin:10px 0 14px; }
-  .back { background:#fff; border:2px solid #e8e0c0; border-radius:12px; padding:8px 14px; font-size:15px; cursor:pointer; color:#3a3a2c; }
+  .topbar { width:100%; max-width:460px; display:flex; align-items:center; justify-content:space-between; margin:10px 0 14px; }
+  .back { background:rgba(255,255,255,.92); border:2px solid #e8e0c0; border-radius:12px; padding:8px 14px; font-size:15px; cursor:pointer; color:#3a3a2c; }
   .progress { flex:1; margin-left:10px; height:10px; background:#efe9d2; border-radius:6px; overflow:hidden; }
   .progress > div { height:100%; background:#f4c542; border-radius:6px; transition:width .3s; }
   .score-chip { background:#2c3e6b; color:#fff; border-radius:12px; padding:6px 12px; font-size:14px; font-weight:700; margin-left:10px; }
-  .quiz-img { width:min(70vw,280px); border-radius:20px; border:3px solid #f0df8a; box-shadow:0 6px 18px rgba(180,160,60,.2); background:#fdf3c4; }
+  .mascot { width:130px; margin:6px auto 0; display:block; filter:drop-shadow(0 6px 10px rgba(120,100,20,.25)); }
+  /* theme grid */
+  .theme-grid { width:100%; max-width:460px; display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:6px; }
+  .theme-card { background:rgba(255,255,255,.94); border:2px solid #f0df8a; border-radius:18px; padding:16px 14px; text-align:center; cursor:pointer; box-shadow:0 3px 10px rgba(180,160,60,.1); transition:transform .12s; }
+  .theme-card:active { transform:scale(.96); }
+  .theme-card .ic { font-size:30px; }
+  .theme-card .nm { font-size:16px; font-weight:700; color:#2c3e6b; margin-top:6px; }
+  .theme-card .ct { font-size:12px; color:#8a8570; margin-top:2px; }
+  /* sign grid */
+  .sign-grid { width:100%; max-width:520px; display:grid; grid-template-columns:repeat(3,1fr); gap:10px; padding-bottom:30px; }
+  .sign-cell { background:rgba(255,255,255,.95); border:2px solid #f0df8a; border-radius:16px; padding:6px; text-align:center; cursor:pointer; transition:transform .12s; position:relative; }
+  .sign-cell:active { transform:scale(.95); }
+  .sign-cell img { width:100%; aspect-ratio:1; object-fit:cover; border-radius:10px; background:#fdf3c4; }
+  .sign-cell .lb { font-size:13px; font-weight:700; color:#2c3e6b; margin-top:4px; line-height:1.2; }
+  .sign-cell .ms { font-size:11px; color:#8a8570; }
+  .sign-cell .vid { position:absolute; top:10px; right:10px; background:#e53935; color:#fff; border-radius:50%; width:22px; height:22px; font-size:11px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 5px rgba(0,0,0,.25); }
+  /* detail view */
+  .detail-video { width:100%; max-width:480px; aspect-ratio:16/9; border-radius:18px; border:3px solid #f0df8a; background:#000; box-shadow:0 6px 18px rgba(180,160,60,.25); }
+  .detail-img { width:min(70vw,280px); border-radius:20px; border:3px solid #f0df8a; background:#fdf3c4; box-shadow:0 6px 18px rgba(180,160,60,.2); }
+  .detail-malay { font-size:20px; color:#8a6d1a; margin-top:8px; font-weight:600; }
+  .example { max-width:460px; background:rgba(255,255,255,.92); border:2px solid #e8e0c0; border-radius:14px; padding:12px 16px; margin-top:10px; font-size:15px; color:#55503c; text-align:center; }
+  .example b { color:#2c3e6b; }
+  .yt-link { display:inline-block; margin-top:10px; font-size:14px; color:#e53935; text-decoration:none; font-weight:600; }
   .prompt { font-size:16px; color:#6b6650; margin:14px 0 10px; text-align:center; }
-  .options { width:100%; max-width:420px; display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
-  .opt { background:#fff; border:2px solid #e8e0c0; border-radius:16px; padding:18px 8px; font-size:22px; font-weight:700; text-align:center; cursor:pointer; transition:all .15s; }
+  .options { width:100%; max-width:440px; display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
+  .opt { background:rgba(255,255,255,.95); border:2px solid #e8e0c0; border-radius:16px; padding:18px 8px; font-size:20px; font-weight:700; text-align:center; cursor:pointer; transition:all .15s; color:#3a3a2c; }
   .opt:active { transform:scale(.96); }
   .opt.correct { background:#d9f2d9; border-color:#4caf50; color:#1b5e20; }
   .opt.wrong { background:#fde0dc; border-color:#e53935; color:#b71c1c; }
@@ -33,75 +56,74 @@
   .feedback { min-height:30px; margin-top:12px; font-size:17px; font-weight:600; text-align:center; }
   .feedback.good { color:#2e7d32; } .feedback.bad { color:#c62828; }
   .next-btn { margin-top:6px; background:#f4c542; border:none; border-radius:14px; padding:13px 40px; font-size:17px; font-weight:700; color:#4a3b00; cursor:pointer; display:none; }
-  .learn-grid { width:100%; max-width:460px; display:grid; grid-template-columns:repeat(3,1fr); gap:10px; padding-bottom:30px; }
-  .learn-cell { background:#fdf3c4; border:2px solid #f0df8a; border-radius:16px; padding:6px; text-align:center; cursor:pointer; }
-  .learn-cell img { width:100%; border-radius:10px; }
-  .learn-cell .lt { font-size:20px; font-weight:800; color:#2c3e6b; }
-  .fs-strip { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; max-width:420px; background:#fff; border:2px solid #e8e0c0; border-radius:18px; padding:12px; min-height:90px; margin:10px 0; }
-  .fs-strip img { width:56px; height:56px; object-fit:contain; background:#fdf3c4; border-radius:10px; border:1px solid #f0df8a; opacity:0; transform:scale(.6); animation:pop .3s forwards; }
-  .fs-strip .gap { width:26px; }
-  @keyframes pop { to { opacity:1; transform:scale(1); } }
-  .replay { background:#fff; border:2px solid #e8e0c0; border-radius:12px; padding:8px 18px; font-size:15px; cursor:pointer; margin:4px 0 8px; }
-  .phrase-list { width:100%; max-width:420px; }
-  .phrase-item { background:#fff; border:2px solid #f0df8a; border-radius:16px; padding:14px 16px; margin:8px 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center; }
-  .phrase-item .en { font-size:17px; font-weight:600; }
-  .phrase-item .ms { font-size:13px; color:#8a8570; }
-  .phrase-item .play { font-size:22px; }
+  .quiz-video { width:100%; max-width:480px; aspect-ratio:16/9; border-radius:18px; border:3px solid #f0df8a; background:#000; }
+  .quiz-img { width:min(70vw,280px); border-radius:20px; border:3px solid #f0df8a; box-shadow:0 6px 18px rgba(180,160,60,.2); background:#fdf3c4; }
   .big-result { font-size:60px; margin:20px 0 6px; }
   .stars { font-size:34px; margin:8px 0; }
-  .review { width:100%; max-width:420px; margin-top:16px; }
-  .review-item { display:flex; align-items:center; background:#fff; border-radius:14px; padding:8px 10px; margin:6px 0; border:1px solid #eee5c8; }
-  .review-item img { width:44px; height:44px; object-fit:contain; background:#fdf3c4; border-radius:8px; margin-right:10px; }
-  .review-item .txt { flex:1; font-size:15px; }
-  .review-item .ok { color:#2e7d32; font-weight:700; } .review-item .no { color:#c62828; font-weight:700; }
-  .tip { font-size:13px; color:#8a8570; text-align:center; margin-top:8px; }
+  .credit { font-size:11px; color:#9a947e; text-align:center; padding:14px 20px 24px; line-height:1.5; }
+  .credit a { color:#8a8570; }
+  .mode-row { display:flex; gap:8px; max-width:440px; width:100%; margin-bottom:8px; }
+  .mode-btn { flex:1; background:rgba(255,255,255,.92); border:2px solid #e8e0c0; border-radius:12px; padding:10px 6px; font-size:14px; font-weight:600; cursor:pointer; color:#3a3a2c; }
+  .mode-btn.on { background:#2c3e6b; color:#fff; border-color:#2c3e6b; }
 </style>
 </head>
 <body>
 
 <!-- ============ HOME ============ -->
 <div class="screen active" id="scr-home">
+  <img class="mascot" src="art/mascot.webp" alt="Signy the hand mascot">
   <h1>🤟 BIM SignPlay</h1>
-  <div class="sub">Belajar Bahasa Isyarat Malaysia · Learn Malaysian Sign Language</div>
-  <button class="btn primary" onclick="go('scr-learn')"><span class="em">🌱</span>Level 1 · Learn the Alphabet<span class="desc">Browse all 26 BIM letter signs</span></button>
+  <div class="sub">Belajar Bahasa Isyarat Malaysia · Learn Malaysian Sign Language — with real sign videos</div>
+  <button class="btn primary" onclick="go('scr-themes')"><span class="em">🎬</span>Learn Everyday Signs<span class="desc">78 daily signs with video by Deaf signers</span></button>
+  <button class="btn" onclick="go('scr-learn')"><span class="em">🌱</span>Level 1 · Learn the Alphabet<span class="desc">Browse all 26 BIM letter signs</span></button>
   <button class="btn" onclick="startQuiz('letter')"><span class="em">🎯</span>Level 2 · Guess the Letter<span class="desc">See a sign — pick the right letter</span></button>
   <button class="btn" onclick="startQuiz('word')"><span class="em">🏆</span>Level 3 · Guess the Word<span class="desc">Read the fingerspelling — same-length choices!</span></button>
-  <button class="btn" onclick="go('scr-phrases')"><span class="em">💬</span>Level 4 · Daily Communication<span class="desc">Learn everyday phrases in fingerspelling</span></button>
-  <button class="btn" onclick="startQuiz('test')"><span class="em">🧪</span>Level 5 · The Big Test<span class="desc">Letters + words + phrases mixed</span></button>
+  <button class="btn" onclick="startQuiz('sign')"><span class="em">🎥</span>Level 4 · Guess the Sign<span class="desc">Watch a real sign video — pick the meaning</span></button>
+  <button class="btn" onclick="startQuiz('test')"><span class="em">🧪</span>Level 5 · The Big Test<span class="desc">Letters + words + signs mixed</span></button>
 </div>
 
-<!-- ============ LEVEL 1 LEARN ============ -->
+<!-- ============ THEMES ============ -->
+<div class="screen" id="scr-themes">
+  <div class="topbar"><button class="back" onclick="go('scr-home')">← Home</button></div>
+  <h1 style="margin-top:0">🎬 Everyday Signs</h1>
+  <div class="sub">Pick a theme — every sign has a real video</div>
+  <div class="theme-grid" id="theme-grid"></div>
+  <div style="height:24px"></div>
+</div>
+
+<!-- ============ SIGN LIST ============ -->
+<div class="screen" id="scr-signs">
+  <div class="topbar"><button class="back" onclick="go('scr-themes')">← Themes</button></div>
+  <h1 id="signs-title" style="margin-top:0"></h1>
+  <div class="sub">Tap a sign to watch the video 🔴 = has video</div>
+  <div class="sign-grid" id="sign-grid"></div>
+</div>
+
+<!-- ============ SIGN DETAIL ============ -->
+<div class="screen" id="scr-detail">
+  <div class="topbar"><button class="back" onclick="closeDetail()">← Back</button></div>
+  <h1 id="detail-eng" style="margin-top:0;font-size:24px"></h1>
+  <div class="detail-malay" id="detail-malay"></div>
+  <div id="detail-player" style="margin-top:12px;width:100%;max-width:480px"></div>
+  <img class="detail-img" id="detail-img" style="display:none;margin-top:12px">
+  <div class="example" id="detail-example" style="display:none"></div>
+  <a class="yt-link" id="detail-yt" style="display:none" target="_blank" rel="noopener">▶ Open on YouTube (MFD SignBank)</a>
+</div>
+
+<!-- ============ LEVEL 1 ALPHABET ============ -->
 <div class="screen" id="scr-learn">
   <div class="topbar"><button class="back" onclick="go('scr-home')">← Home</button></div>
   <h1 style="margin-top:0">🌱 BIM Alphabet</h1>
   <div class="sub">Tap any letter to see it big</div>
-  <div class="learn-grid" id="learn-grid"></div>
+  <div class="sign-grid" id="learn-grid"></div>
 </div>
 
-<!-- ============ LETTER DETAIL ============ -->
-<div class="screen" id="scr-detail">
+<!-- ============ ALPHABET DETAIL ============ -->
+<div class="screen" id="scr-abc-detail">
   <div class="topbar"><button class="back" onclick="go('scr-learn')">← Back</button></div>
-  <h1 id="detail-letter" style="font-size:44px"></h1>
-  <img class="quiz-img" id="detail-img" style="margin-top:10px">
-  <div class="tip" id="detail-tip" style="font-size:15px;margin-top:14px"></div>
-</div>
-
-<!-- ============ PHRASES (LEVEL 4) ============ -->
-<div class="screen" id="scr-phrases">
-  <div class="topbar"><button class="back" onclick="go('scr-home')">← Home</button></div>
-  <h1 style="margin-top:0">💬 Daily Communication</h1>
-  <div class="sub">Tap a phrase to watch it fingerspelled, then try the quiz!</div>
-  <div class="phrase-list" id="phrase-list"></div>
-  <button class="btn primary" style="margin:14px 0 30px" onclick="startQuiz('phrase')">▶ Practice Quiz — Guess the Phrase</button>
-</div>
-
-<!-- ============ PHRASE PLAYER ============ -->
-<div class="screen" id="scr-player">
-  <div class="topbar"><button class="back" onclick="go('scr-phrases')">← Back</button></div>
-  <h1 id="player-title" style="margin-top:0;font-size:22px"></h1>
-  <div class="fs-strip" id="player-strip"></div>
-  <button class="replay" onclick="replayPhrase()">🔁 Replay</button>
-  <div class="tip" style="font-size:15px">Letters appear one by one — read the hand shapes!</div>
+  <h1 id="abc-letter" style="font-size:44px"></h1>
+  <img class="quiz-img" id="abc-img" style="margin-top:10px">
+  <div class="sub" id="abc-tip" style="font-size:15px;margin-top:14px"></div>
 </div>
 
 <!-- ============ QUIZ ============ -->
@@ -112,9 +134,9 @@
     <div class="score-chip" id="quiz-score">0</div>
   </div>
   <div class="prompt" id="quiz-prompt"></div>
+  <div id="quiz-video-holder" style="display:none;width:100%;max-width:480px"></div>
   <img class="quiz-img" id="quiz-img" style="display:none">
-  <div class="fs-strip" id="quiz-strip" style="display:none"></div>
-  <button class="replay" id="quiz-replay" style="display:none" onclick="replayQuizPhrase()">🔁 Replay</button>
+  <div id="quiz-strip-holder" style="display:none;width:100%"></div>
   <div class="options" id="quiz-options"></div>
   <div class="feedback" id="quiz-feedback"></div>
   <button class="next-btn" id="quiz-next" onclick="nextQuestion()">Next →</button>
@@ -129,9 +151,16 @@
   <div class="sub" id="res-score"></div>
   <button class="btn primary" onclick="retryQuiz()">🔁 Try Again</button>
   <button class="btn" onclick="go('scr-home')">🏠 Home</button>
-  <div class="review" id="res-review"></div>
+  <div id="res-review" style="width:100%;max-width:440px;margin-top:16px"></div>
 </div>
 
+<div class="credit">
+  Sign videos, images &amp; data © <a href="https://bimsignbank.org" target="_blank" rel="noopener">BIM SignBank</a> —
+  Malaysian Federation of the Deaf (MFD) &amp; Guidewire Gives Back. Alphabet hand photos from the UMPSA BIM chart.<br>
+  Made with 💛 by the SignPlay family
+</div>
+
+<script src="data.js"></script>
 <script>
 const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const TIPS = {
@@ -149,91 +178,120 @@ const TIPS = {
   W:"Three fingers spread — a W", X:"Index finger hooked like a hook",
   Y:"Thumb and pinky out — shake it", Z:"Index finger draws a Z in the air"
 };
-// Level 3 words grouped by length so distractors always match length
 const WORDS = {
   3:["CAT","DOG","SUN","HAT","BUS","PEN","CUP","KEY"],
   4:["CAKE","STAR","FISH","BIRD","MOON","BOOK","LION","FROG"],
   5:["APPLE","SMILE","HEART","CLOUD","TRAIN","MOUSE"],
   6:["FLOWER","MONKEY","ROCKET","GUITAR"]
 };
-// Level 4 daily communication phrases
-const PHRASES = [
-  {en:"Hello", ms:"Hai / Hello"},
-  {en:"Thank you", ms:"Terima kasih"},
-  {en:"How are you?", ms:"Apa khabar?"},
-  {en:"Good morning", ms:"Selamat pagi"},
-  {en:"Goodbye", ms:"Selamat tinggal"},
-  {en:"Please", ms:"Tolong"},
-  {en:"Sorry", ms:"Maaf"},
-  {en:"My name is...", ms:"Nama saya..."},
-  {en:"Nice to meet you", ms:"Selamat berkenalan"},
-  {en:"I love you", ms:"Saya sayang awak"}
-];
-const LETTER_ROUND_COUNT = 10, WORD_ROUND_COUNT = 8, PHRASE_ROUND_COUNT = 8, TEST_ROUND_COUNT = 12;
+const LETTER_ROUND_COUNT = 10, WORD_ROUND_COUNT = 8, SIGN_ROUND_COUNT = 10, TEST_ROUND_COUNT = 12;
+let player = null;   // current YT player
+let pendingAutoplay = null;
+let detailReturn = 'scr-themes';
+let quiz = null, lastType = null;
 
-let quiz = null, lastType = null, playerTimer = null;
+/* ---------- YouTube iframe API ---------- */
+let ytReady = false, ytQueue = [];
+const tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+document.head.appendChild(tag);
+window.onYouTubeIframeAPIReady = function(){ ytReady = true; ytQueue.forEach(f=>f()); ytQueue = []; };
 
+function mountVideo(containerId, videoId, autoplay){
+  const holder = document.getElementById(containerId);
+  holder.innerHTML = '<div id="'+containerId+'-frame"></div>';
+  const mount = () => {
+    if(player && player.destroy) { try{player.destroy();}catch(e){} player = null; }
+    player = new YT.Player(containerId+'-frame', {
+      videoId: videoId,
+      playerVars: {rel:0, playsinline:1, autoplay: autoplay?1:0, modestbranding:1},
+      events: { onReady: (e)=>{ if(autoplay) e.target.playVideo(); } }
+    });
+  };
+  if(ytReady) mount(); else ytQueue.push(mount);
+}
+function destroyPlayer(){
+  if(player){ try{player.destroy();}catch(e){} player = null; }
+}
+
+/* ---------- navigation ---------- */
 function go(id){
+  destroyPlayer();
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
 }
 
-/* ---------- Level 1 ---------- */
+/* ---------- Themes & signs ---------- */
+(function buildThemes(){
+  const g = document.getElementById('theme-grid');
+  BIM_DATA.themes.forEach(t=>{
+    const d = document.createElement('div');
+    d.className = 'theme-card';
+    const ic = t.name.split(' ')[0];
+    d.innerHTML = `<div class="ic">${ic}</div><div class="nm">${t.name.split(' ').slice(1).join(' ')}</div><div class="ct">${t.count} signs</div>`;
+    d.onclick = ()=>showTheme(t.id);
+    g.appendChild(d);
+  });
+})();
+function showTheme(id){
+  const theme = BIM_DATA.themes.find(t=>t.id===id);
+  document.getElementById('signs-title').textContent = theme.name;
+  const g = document.getElementById('sign-grid');
+  g.innerHTML = '';
+  BIM_DATA.signs[id].forEach(s=>{
+    const d = document.createElement('div');
+    d.className = 'sign-cell';
+    d.innerHTML = `<img loading="lazy" src="${s.img}" alt="${s.eng}">
+      ${s.video?'<div class="vid">▶</div>':''}
+      <div class="lb">${s.eng}</div><div class="ms">${s.malay}</div>`;
+    d.onclick = ()=>showSign(s);
+    g.appendChild(d);
+  });
+  go('scr-signs');
+}
+let currentSign = null;
+function showSign(s){
+  currentSign = s;
+  document.getElementById('detail-eng').textContent = s.eng;
+  document.getElementById('detail-malay').textContent = s.malay;
+  const vp = document.getElementById('detail-player');
+  const img = document.getElementById('detail-img');
+  const ex = document.getElementById('detail-example');
+  const yt = document.getElementById('detail-yt');
+  if(s.video){
+    vp.style.display='block'; img.style.display='none';
+    mountVideo('detail-player', s.video, true);
+    yt.style.display='inline-block';
+    yt.href = 'https://www.youtube.com/watch?v='+s.video;
+  } else {
+    vp.style.display='none'; destroyPlayer();
+    img.style.display='block'; img.src = s.img;
+    yt.style.display='none';
+  }
+  if(s.example){ ex.style.display='block'; ex.innerHTML = '💬 <b>Contoh:</b> '+s.example; }
+  else ex.style.display='none';
+  go('scr-detail');
+}
+function closeDetail(){ go('scr-signs'); }
+
+/* ---------- Alphabet ---------- */
 (function buildLearn(){
   const g = document.getElementById('learn-grid');
   for(const l of LETTERS){
     const d = document.createElement('div');
-    d.className = 'learn-cell';
-    d.innerHTML = `<div class="lt">${l}${l.toLowerCase()}</div><img loading="lazy" src="cell/${l.toLowerCase()}.png" alt="${l}">`;
-    d.onclick = ()=>showDetail(l);
+    d.className = 'sign-cell';
+    d.innerHTML = `<div class="lb" style="font-size:18px">${l}${l.toLowerCase()}</div><img loading="lazy" src="cell/${l.toLowerCase()}.png" alt="${l}">`;
+    d.onclick = ()=>showAbc(l);
     g.appendChild(d);
   }
 })();
-function showDetail(l){
-  document.getElementById('detail-letter').textContent = l + l.toLowerCase();
-  document.getElementById('detail-img').src = 'hand/' + l.toLowerCase() + '.png';
-  document.getElementById('detail-tip').textContent = '💡 ' + TIPS[l];
-  go('scr-detail');
+function showAbc(l){
+  document.getElementById('abc-letter').textContent = l + l.toLowerCase();
+  document.getElementById('abc-img').src = 'hand/' + l.toLowerCase() + '.png';
+  document.getElementById('abc-tip').textContent = '💡 ' + TIPS[l];
+  go('scr-abc-detail');
 }
-
-/* ---------- Level 4 phrase list ---------- */
-(function buildPhrases(){
-  const list = document.getElementById('phrase-list');
-  PHRASES.forEach((p,i)=>{
-    const d = document.createElement('div');
-    d.className='phrase-item';
-    d.innerHTML = `<div><div class="en">${p.en}</div><div class="ms">${p.ms}</div></div><div class="play">▶️</div>`;
-    d.onclick = ()=>playPhrase(i);
-    list.appendChild(d);
-  });
-})();
-function fingerspell(text, stripEl, done){
-  stripEl.innerHTML='';
-  const letters = text.split('');
-  let delay = 0;
-  letters.forEach((ch)=>{
-    if(ch===' '){
-      const gp=document.createElement('div'); gp.className='gap'; stripEl.appendChild(gp);
-      return;
-    }
-    const img=document.createElement('img');
-    img.src='hand/'+ch.toLowerCase()+'.png';
-    img.style.animationDelay = delay+'ms';
-    delay += 260;
-    stripEl.appendChild(img);
-  });
-  if(done) setTimeout(done, delay+400);
-}
-function playPhrase(i){
-  const p = PHRASES[i];
-  document.getElementById('player-title').textContent = p.en + '  ·  ' + p.ms;
-  currentPhrase = p.en.toUpperCase();
-  fingerspell(currentPhrase, document.getElementById('player-strip'));
-  go('scr-player');
-}
-let currentPhrase = null;
-function replayPhrase(){ if(currentPhrase) fingerspell(currentPhrase, document.getElementById('player-strip')); }
 
 /* ---------- Quiz engine ---------- */
 function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
@@ -242,7 +300,7 @@ function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
 function makeLetterQ(){
   const ans = pick(LETTERS.split(''));
   const distractors = shuffle(LETTERS.split('').filter(l=>l!==ans)).slice(0,3);
-  return {type:'letter', answer:ans, image:'hand/'+ans.toLowerCase()+'.png',
+  return {answer:ans, image:'hand/'+ans.toLowerCase()+'.png',
           options:shuffle([ans,...distractors]), prompt:'🤟 What letter is this?'};
 }
 function makeWordQ(){
@@ -250,47 +308,49 @@ function makeWordQ(){
   const pool = WORDS[len];
   const ans = pick(pool);
   const distractors = shuffle(pool.filter(w=>w!==ans)).slice(0,3);
-  return {type:'word', answer:ans, spell:ans,
-          options:shuffle([ans,...distractors]), prompt:'📖 Read the fingerspelling — what word is it?'};
+  return {answer:ans, spell:ans, options:shuffle([ans,...distractors]),
+          prompt:'📖 Read the fingerspelling — what word is it?'};
 }
-function makePhraseQ(){
-  const ans = pick(PHRASES);
-  const distractors = shuffle(PHRASES.filter(p=>p!==ans)).slice(0,3);
-  return {type:'phrase', answer:ans.en, spell:ans.en.toUpperCase(),
-          options:shuffle([ans.en,...distractors.map(p=>p.en)]), prompt:'💬 What phrase is being signed?'};
+function makeSignQ(){
+  // only signs with video, and require 4 distinct eng labels
+  const pool = [];
+  for(const t of BIM_DATA.themes) for(const s of BIM_DATA.signs[t.id])
+    if(s.video && s.eng) pool.push(s);
+  const ans = pick(pool);
+  const seen = new Set([ans.eng]);
+  const dis = [];
+  const sh = shuffle(pool.slice());
+  for(const s of sh){ if(!seen.has(s.eng)){ seen.add(s.eng); dis.push(s.eng); } if(dis.length===3) break; }
+  return {answer:ans.eng, video:ans.video, options:shuffle([ans.eng,...dis]),
+          prompt:'🎥 Watch the video — what sign is it?'};
 }
 function makeQuestion(type){
   if(type==='letter') return makeLetterQ();
   if(type==='word') return makeWordQ();
-  if(type==='phrase') return makePhraseQ();
-  // test: mixed
+  if(type==='sign') return makeSignQ();
   const r = Math.random();
-  if(r<0.34) return makeLetterQ();
-  if(r<0.67) return makeWordQ();
-  return makePhraseQ();
+  if(r<0.3) return makeLetterQ();
+  if(r<0.6) return makeWordQ();
+  return makeSignQ();
 }
-
 function startQuiz(type){
   lastType = type;
-  const count = {letter:LETTER_ROUND_COUNT, word:WORD_ROUND_COUNT, phrase:PHRASE_ROUND_COUNT, test:TEST_ROUND_COUNT}[type];
-  quiz = {type, total:count, idx:0, score:0, log:[], q:null, answered:false};
+  const count = {letter:LETTER_ROUND_COUNT, word:WORD_ROUND_COUNT, sign:SIGN_ROUND_COUNT, test:TEST_ROUND_COUNT}[type];
+  quiz = {type, total:count, idx:0, score:0, log:[]};
   go('scr-quiz');
   nextQuestion(true);
 }
 function nextQuestion(first){
-  if(!first){
-    if(quiz.idx >= quiz.total){ showResult(); return; }
-  }
   if(quiz.idx >= quiz.total){ showResult(); return; }
   quiz.q = makeQuestion(quiz.type);
-  quiz.answered = false;
   document.getElementById('quiz-progress').style.width = (quiz.idx/quiz.total*100)+'%';
   document.getElementById('quiz-score').textContent = quiz.score;
   document.getElementById('quiz-prompt').textContent = `Q${quiz.idx+1}/${quiz.total} · ${quiz.q.prompt}`;
-  const img = document.getElementById('quiz-img'), strip = document.getElementById('quiz-strip'), rp = document.getElementById('quiz-replay');
-  if(quiz.q.image){ img.style.display='block'; img.src=quiz.q.image; strip.style.display='none'; rp.style.display='none'; }
-  else { img.style.display='none'; strip.style.display='flex'; rp.style.display='inline-block';
-         currentQuizSpell = quiz.q.spell; fingerspell(quiz.q.spell, strip); }
+  const vh = document.getElementById('quiz-video-holder'), img = document.getElementById('quiz-img'), sh = document.getElementById('quiz-strip-holder');
+  vh.style.display='none'; img.style.display='none'; sh.style.display='none';
+  if(quiz.q.video){ vh.style.display='block'; mountVideo('quiz-video-holder', quiz.q.video, true); }
+  else if(quiz.q.image){ img.style.display='block'; img.src=quiz.q.image; }
+  else { sh.style.display='block'; fingerspell(quiz.q.spell, sh); }
   const box = document.getElementById('quiz-options');
   box.innerHTML='';
   quiz.q.options.forEach(opt=>{
@@ -303,11 +363,23 @@ function nextQuestion(first){
   document.getElementById('quiz-feedback').className='feedback';
   document.getElementById('quiz-next').style.display='none';
 }
-let currentQuizSpell = null;
-function replayQuizPhrase(){ if(currentQuizSpell) fingerspell(currentQuizSpell, document.getElementById('quiz-strip')); }
+function fingerspell(text, holder){
+  holder.innerHTML = '<div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:440px;margin:0 auto;background:rgba(255,255,255,.92);border:2px solid #e8e0c0;border-radius:18px;padding:12px;min-height:90px"></div>';
+  const strip = holder.firstChild;
+  let delay = 0;
+  text.split('').forEach(ch=>{
+    if(ch===' '){ const gp=document.createElement('div'); gp.style.width='26px'; strip.appendChild(gp); return; }
+    const img=document.createElement('img');
+    img.src='hand/'+ch.toLowerCase()+'.png';
+    img.style.cssText=`width:56px;height:56px;object-fit:contain;background:#fdf3c4;border-radius:10px;border:1px solid #f0df8a;opacity:0;transform:scale(.6);animation:fspop .3s forwards;animation-delay:${delay}ms`;
+    delay += 260;
+    strip.appendChild(img);
+  });
+}
+const st = document.createElement('style');
+st.textContent = '@keyframes fspop { to { opacity:1; transform:scale(1); } }';
+document.head.appendChild(st);
 function answer(opt, btn){
-  if(quiz.answered) return;
-  quiz.answered = true;
   const correct = opt === quiz.q.answer;
   document.querySelectorAll('#quiz-options .opt').forEach(b=>{
     b.disabled = true;
@@ -335,8 +407,8 @@ function showResult(){
   rev.innerHTML = missed.length ? '<div class="sub" style="margin:10px 0 4px">📋 Review what you missed:</div>' : '<div class="sub" style="margin:10px 0 4px">🌟 Flawless — nothing to review!</div>';
   missed.forEach(e=>{
     const d=document.createElement('div'); d.className='review-item';
-    const thumb = e.q.image ? e.q.image : 'hand/'+e.q.spell[0].toLowerCase()+'.png';
-    d.innerHTML = `<img src="${thumb}"><div class="txt">${e.q.answer}</div><div class="no">✗</div>`;
+    d.style.cssText='display:flex;align-items:center;background:rgba(255,255,255,.94);border-radius:14px;padding:8px 10px;margin:6px 0;border:1px solid #eee5c8';
+    d.innerHTML = `<div class="txt" style="flex:1;font-size:15px">${e.q.answer}</div><div style="color:#c62828;font-weight:700">✗</div>`;
     rev.appendChild(d);
   });
   go('scr-result');
