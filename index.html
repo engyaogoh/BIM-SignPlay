@@ -57,6 +57,9 @@
   .feedback.good { color:#2e7d32; } .feedback.bad { color:#c62828; }
   .next-btn { margin-top:6px; background:#f4c542; border:none; border-radius:14px; padding:13px 40px; font-size:17px; font-weight:700; color:#4a3b00; cursor:pointer; display:none; }
   .quiz-video { width:100%; max-width:480px; aspect-ratio:16/9; border-radius:18px; border:3px solid #f0df8a; background:#000; }
+  /* responsive video: iframe fills its holder at phone width */
+  #quiz-video-holder, #detail-player { position:relative; width:100%; max-width:480px; aspect-ratio:16/9; border-radius:18px; overflow:hidden; border:3px solid #f0df8a; background:#000; box-shadow:0 6px 18px rgba(180,160,60,.25); }
+  #quiz-video-holder iframe, #detail-player iframe { position:absolute; inset:0; width:100% !important; height:100% !important; border:0; }
   .quiz-img { width:min(70vw,280px); border-radius:20px; border:3px solid #f0df8a; box-shadow:0 6px 18px rgba(180,160,60,.2); background:#fdf3c4; }
   .big-result { font-size:60px; margin:20px 0 6px; }
   .stars { font-size:34px; margin:8px 0; }
@@ -199,7 +202,7 @@ window.onYouTubeIframeAPIReady = function(){ ytReady = true; ytQueue.forEach(f=>
 
 function mountVideo(containerId, videoId, autoplay){
   const holder = document.getElementById(containerId);
-  holder.innerHTML = '<div id="'+containerId+'-frame"></div>';
+  holder.innerHTML = '<div id="'+containerId+'-frame" style="position:absolute;inset:0;width:100%;height:100%"></div>';
   const mount = () => {
     if(player && player.destroy) { try{player.destroy();}catch(e){} player = null; }
     player = new YT.Player(containerId+'-frame', {
